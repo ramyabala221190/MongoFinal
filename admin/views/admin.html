@@ -1,0 +1,113 @@
+<span>Welcome</span><h4 id="username"></h4>
+<hr/>
+<button class="btn btn-success" ng-click="$ctrl.getProducts()">View Books</button>
+<button class="btn btn-success" ng-click="$ctrl.createProduct()">Create Book</button>
+
+
+<div ng-if="$ctrl.productList.length > 0 ">
+<table class="table">
+<tr>
+<th>Action</th>
+<th>BookName</th>
+<th>Author</th>
+<th>Format</th>
+<th>Publisher</th>
+<th>Pages</th>
+<th>BookCover</th>
+</tr>
+<tr ng-repeat="x in $ctrl.productList" >
+<td><button class="btn btn-primary" ng-click='$ctrl.deleteProducts(x.gtin14)'>Delete/</button>
+<button class="btn btn-primary" ng-click='$ctrl.editProduct(x)'>Edit</button></td>
+<td><input type="hidden" ng-model="$ctrl.bookId" value="{{x.gtin14}}"/><span>{{x.name}}</span></td>
+<td><span>{{x.author}}</span></td>
+<td><span>{{x.format}}</span></td>
+<td><span>{{x.publisher}}</span></td>
+<td><span>{{x.pages}}</span></td>
+<td>
+<input style="display:none" type="file" id="book_image{{$index}}" accept="image/*" onchange="StoreFile(event)" name="bookimage"/>
+<span ng-if="x.images.length==0">
+<img style="width:100px;height:100px" id="output{{$index}}" src="images/default.png" onclick='openfileBrowser(event);return false;'/>
+</span>
+<span ng-if="x.images.length > 0">
+<img style="width:100px;height:100px" id="output{{$index}}" src="images/{{x.images}}" onclick="openfileBrowser(event);return false;"/>
+</span>
+<button ng-click="$ctrl.upload(x.gtin14,$index)" disabled="disabled" id="upload{{$index}}" class="btn btn-primary">Upload</button>
+
+
+</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="alert alert-success" ng-if="$ctrl.successEdit">Book has been edited successfully</div>
+<div class="alert alert-success" ng-if="$ctrl.successDel">Book has been deleted successfully</div>
+<div class="alert alert-success" ng-if="$ctrl.successcrt">Book has been created successfully</div>
+<div class="alert alert-danger" ng-if="$ctrl.failedEdit ||$ctrl.failedDel||$ctrl.failedcrt">
+We faced some problem performing this operation</div>
+
+
+<div ng-if="$ctrl.editForm">
+<form id="editfrm" name="editForm" ng-model="$ctrl.editingForm" class="form-group jumbotron" enctype="multipart/form-data">
+<span onclick="closeModal()" class="close">&times;</span>  
+<input type="hidden" ng-model="$ctrl.gtin"/>
+BookName:<input  class="form-control" type="text"  ng-model="$ctrl.bookName" name="bookName" pattern="[a-zA-Z,.-_ ]*"/>
+BookAuthor:<input  class="form-control" type="text" ng-model="$ctrl.bookAuthor" name="bookAuthor" pattern="[a-zA-Z,.-_ ]*"/>
+BookFormat:<input  class="form-control" type="text" ng-model="$ctrl.bookFormat" name="bookFormat" pattern="[a-zA-Z,.-_ ]*"/>
+BookPublisher:<input  class="form-control" type="text" ng-model="$ctrl.bookPublisher" name="bookPublisher" pattern="[a-zA-Z,.-_ ]*/>
+BookPages:<input  class="form-control" type="text" ng-model="$ctrl.bookPages" name="bookPages" pattern="[0-9]*"/>
+
+<div>
+<span class="alert alert-warning" ng-if="editForm.bookName.$error.pattern||
+editForm.bookAuthor.$error.pattern||
+editForm.bookFormat.$error.pattern||
+editForm.bookPublisher.$error.pattern
+">Book-Name,Author,Format,Publisher can contain only alphabets</span>
+
+<span class="alert alert-warning" ng-if="editForm.bookPages.$error.pattern">Book-Pages should be numeric</span>
+</div>
+
+<button class="btn btn-primary" ng-disabled="editForm.$invalid" ng-click="$ctrl.editingProduct($ctrl.gtin,$ctrl.bookName,
+$ctrl.bookAuthor,$ctrl.bookFormat,$ctrl.bookPublisher,$ctrl.bookPages)">Edit</button>
+</form>
+
+</div>
+
+<div ng-if="$ctrl.createForm">
+<form id="crtfrm" name="createForm" ng-model="$ctrl.creatingForm" class="form-group jumbotron">
+<span onclick="closeModal()" class="close">&times;</span>  
+BookGTIN:<input type="text" class="form-control" name="crtgtin" ng-model="$ctrl.crtgtin" pattern="[0-9]*" minlength="14" maxlength="14" required/>
+BookName:<input  class="form-control" type="text" name="crtbookName" ng-model="$ctrl.crtbookName" pattern="[a-zA-Z ]*" required/>
+BookAuthor:<input  class="form-control" type="text" name="crtbookAuthor" ng-model="$ctrl.crtbookAuthor" pattern="[a-zA-Z ]*" required/>
+BookFormat:<input  class="form-control" type="text"name="crtbookFormat" ng-model="$ctrl.crtbookFormat" pattern="[a-zA-Z ]*" required/>
+BookPublisher:<input  class="form-control" type="text" name="crtbookPublisher" ng-model="$ctrl.crtbookPublisher" pattern="[a-zA-Z ]*" required/>
+BookPages:<input  class="form-control" type="text" name="crtbookPages" ng-model="$ctrl.crtbookPages" pattern="[0-9]*" required/>
+<div>
+<span class="alert alert-warning" ng-if="
+createForm.crtgtin.$error.required||
+createForm.crtbookName.$error.required||
+createForm.crtbookAuthor.$error.required||
+createForm.crtbookFormat.$error.required||
+createForm.crtbookPublisher.$error.required||
+createForm.crtbookPages.$error.required
+">All Fields are mandatory</span>
+
+<span class="alert alert-warning" ng-if="createForm.crtbookName.$error.pattern||
+createForm.crtbookAuthor.$error.pattern||
+createForm.crtbookFormat.$error.pattern||
+createForm.crtbookPublisher.$error.pattern
+">Book-Name,Author,Format,Publisher can contain only alphabets</span>
+
+<span class="alert alert-warning" ng-if="createForm.crtgtin.$error.pattern||
+createForm.crtbookPages.$error.pattern">Book-GTIN,Pages should be numeric</span>
+
+<span class="alert alert-warning" ng-if="createForm.crtgtin.$error.minlength||createForm.crtgtin.$error.maxlength">Book-GTIN,Pages should be 14 digit</span>
+
+</div>
+
+<button class="btn btn-primary" ng-disabled="createForm.$invalid" ng-click="$ctrl.creatingProduct($ctrl.crtgtin,$ctrl.crtbookName,
+$ctrl.crtbookAuthor,$ctrl.crtbookFormat,$ctrl.crtbookPublisher,$ctrl.crtbookPages)">Create</button>
+</form>
+</div>

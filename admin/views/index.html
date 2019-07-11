@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/">
+<title>Microservices-Admin</title>
+<link rel="stylesheet" type="text/css" href="libraries/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/app.css"/>
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+</head>
+
+<body ng-app="adminapp">
+
+<div class="container">
+
+
+<div style="display:none" id="loadingRequest"><img style="top:70%;left:50%;position:relative;width:100px;height:100px;" src="images/spin.gif"></div>
+
+
+<ui-view>
+
+</ui-view>
+
+<!--container ends -->
+</div>
+
+<script type="text/javascript" src="libraries/jquery.min.js"></script>
+<script type="text/javascript" src="scripts/script.js"></script>
+<script type="text/javascript" src="libraries/bootstrap.min.js"></script>
+<script type="text/javascript" src="libraries/angular.min.js"></script>
+<script type="text/javascript" src="libraries/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="angularModule.js"></script>
+<script type="text/javascript" src="router.js"></script>
+<script type="text/javascript" src="../controllers/adminController.js"></script>
+<script type="text/javascript"  src="../services/adminService.js"></script>
+<script type="text/javascript" src="../services/loginService.js"></script>
+<script type="text/javascript" src="../components/loginComponent.js"></script>
+<script type="text/javascript" src="../components/adminComponent.js"></script>
+<script type="text/javascript" src="../components/errorComponent.js"></script>
+
+
+</body>
+</html>

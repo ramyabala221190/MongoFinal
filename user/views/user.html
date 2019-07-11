@@ -1,0 +1,74 @@
+<h4 id="username"></h4>
+<hr/>
+
+
+<button class="btn btn-success" ng-click="$ctrl.viewCartDetails()">Get Cart Details</button>
+
+<div ng-if="$ctrl.cartDetails.length > 0">
+<table class="table">
+<tr>
+<th>Action</th>
+<th>BookName</th>
+<th>Author</th>
+<th>Format</th>
+<th>Publisher</th>
+<th>Pages</th>
+<th>BookCover</th>
+</tr>
+<tr ng-repeat="x in $ctrl.cartDetails">
+<td><input type="hidden" ng-model="$ctrl.bookId" value="{{x.gtin14}}"><span>{{x.name}}</span></td>
+<td><span>{{x.author}}</span></td>
+<td><span>{{x.format}}</span></td>
+<td><span>{{x.publisher}}</span></td>
+<td><span>{{x.pages}}</span></td>
+<td>
+<span ng-if="x.images.length==0">
+<img style="width:100px;height:100px" src="images/default.png"/>
+</span>
+<span ng-if="x.images.length > 0">
+<img style="width:100px;height:100px" src="images/{{x.images}}"/>
+</span>
+</td>
+</tr>
+
+</table>
+</div>
+
+
+<button class="btn btn-success" ng-click="$ctrl.getProducts()">View Books</button>
+
+<div class="alert alert-success" ng-if="$ctrl.bookAddedSuccess">Book added to Cart</div>
+<div class="alert alert-danger" ng-if="$ctrl.bookAddedFailed">We faced some issue performing this operation</div>
+<div class="alert alert-danger" ng-if="$ctrl.bookAddedExists">Book already exists in your cart</div>
+
+<div ng-if="$ctrl.productList.length > 0">
+<table class="table">
+<tr>
+<th>Action</th>
+<th>BookName</th>
+<th>Author</th>
+<th>Format</th>
+<th>Publisher</th>
+<th>Pages</th>
+<th>BookCover</th>
+</tr>
+<tr ng-repeat="x in $ctrl.productList">
+<td><button class="btn btn-primary" ng-click="$ctrl.AddtoCart(x.gtin14)">Add to Cart</button></td>
+<td><input type="hidden" ng-model="$ctrl.bookId" value="{{x.gtin14}}"><span>{{x.name}}</span></td>
+<td><span>{{x.author}}</span></td>
+<td><span>{{x.format}}</span></td>
+<td><span>{{x.publisher}}</span></td>
+<td><span>{{x.pages}}</span></td>
+<td>
+<span ng-if="x.images.length==0">
+<img style="width:100px;height:100px" src="images/default.png">
+</span>
+<span ng-if="x.images.length > 0">
+<img style="width:100px;height:100px" src="images/{{x.images}}">
+</span>
+
+</td>
+</tr>
+
+</table>
+</div>

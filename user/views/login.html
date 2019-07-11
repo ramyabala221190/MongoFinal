@@ -1,0 +1,14 @@
+<div class="alert alert-info" ng-if="$ctrl.invalidLogin">Incorrect username/Password</div>
+<div class="alert alert-info" ng-if="$ctrl.ToomanyRequests">Exceeded no of login attempts.Please try after 5 mins</div>
+
+<div class="jumbotron">
+<form class="form-group" id="loginform" name="loginfrm" ng-model="$ctrl.loginfrm">
+<label id="user">Username:</label>
+<input type="text" id="user" class="form-control" required ng-model="$ctrl.username" name="username"/>
+
+<label id="pass">Password:</label>
+<input type="password" id="pass" class="form-control" required ng-model="$ctrl.password" name="password"/>
+
+<button class="btn btn-success" ng-disabled="loginfrm.$invalid" ng-click="$ctrl.loggingIn($ctrl.username,$ctrl.password)">Login</button>
+</form>
+</div>
